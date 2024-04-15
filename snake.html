@@ -10,21 +10,31 @@
 
 <body>
     <div text-aling="center">
-
         <h1>
             <strong>
-                // Creating a canvas
-                // Giving it the id for fetcting it later
                 <canvas id="gameCanvas" width="300" height="300">&alt;canvas>
             </strong>
         </h1>
         <script>
 
+            let snake = [
+                { x: 150, y: 150 },
+                { x: 140, y: 150 },
+                { x: 130, y: 150 },
+                { x: 120, y: 150 },
+                { x: 110, y: 150 }
+            ]
+
+            // Horizotal Velocity
+            let dx = 0;
+
+            
             // Get the canvas element
             const canvas = document.getElementById("gameCanvas");
             // Returning the two dimentinal drawing context
             const ctx = canvas.getContext("2d");
 
+            
             // Giving a background color and border to the canvas
             // Select a color to fill the drawing
             ctx.strokeStyle = "black";
@@ -36,28 +46,45 @@
             // Drawing a border arounf the entire canvas
             ctx.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
 
-            let snake = [
-                { x: 150, y: 150 },
-                { x: 140, y: 150 },
-                { x: 130, y: 150 },
-                { x: 120, y: 150 },
-                { x: 110, y: 150 }
-            ]
-
             // Drawing the Snake on the canvas
 
+            function drawSnake() { 
+                // loop through the each parts drawing each part on the canvas
+                snake.forEach(drawSnakePart);
+            }
+            
+            /*
+                Draws a part of snake on the canvas
+                @param {object} snakePart - The coordinates where the part should be drawn
+            */
+
             function drawSnakePart(snakePart) {
+                // Set the color of the snske port
                 ctx.fillStyle = "lightgreen";
+
+                // Ser the border color of the snake board
                 ctx.strokeStyle = "darkgreen";
+
+                // Draw a "filled" rctangle to represent the snake port at the coordinates
+                // the part us located
                 ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
+                // Draw the border around the snake port
                 ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
             }
 
+            /* 
+                Advance the snake by changing the x-coordinstes of its parts
+                according to the horizontal velocity and the y coordinates of its parts
+                according to the vertical velocity
+            */
 
-
-            function drawSnake() {
-                snake.forEach(drawSnakePart);
+            function advanceSnake() {
+                // Create a new snake head
+                const head = {z: snake[0].x + dx, y: snake[0].y + dx};
+                // Now add the new head to the beginning of the snake's body
+                snake.unshift(head);
             }
+
 
             drawSnake();
 
