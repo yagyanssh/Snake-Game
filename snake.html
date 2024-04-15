@@ -27,6 +27,8 @@
 
             // Horizotal Velocity
             let dx = 0;
+            // Vertical Velocity
+            let dy = -10;
 
             
             // Get the canvas element
@@ -45,6 +47,15 @@
             ctx.fillStyle = "white";
             // Drawing a border arounf the entire canvas
             ctx.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
+
+            function clearCanvas() {
+                ctx.fillStyle = "white";
+                ctx.strokeStyle = "black";
+                ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+                ctx.strokeStyle(0, 0, gameCanvas.width, gameCanvas.height);
+            }
+
+
 
             // Drawing the Snake on the canvas
 
@@ -80,12 +91,20 @@
 
             function advanceSnake() {
                 // Create a new snake head
-                const head = {z: snake[0].x + dx, y: snake[0].y + dx};
+                const head = {x: snake[0].x + dx, y: snake[0].y + dy};
                 // Now add the new head to the beginning of the snake's body
                 snake.unshift(head);
+                // for removig last element
+                snake.pop()
             }
 
-
+            
+            clearCanvas()
+            // Move one step to the right
+            advanceSnake();
+            // MOve up
+            advanceSnake();
+            // Draw the snake on the canvas
             drawSnake();
 
 
