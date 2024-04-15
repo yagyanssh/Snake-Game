@@ -36,7 +36,8 @@
             // Returning the two dimentinal drawing context
             const ctx = canvas.getContext("2d");
 
-            
+            function clearCanvas() {
+
             // Giving a background color and border to the canvas
             // Select a color to fill the drawing
             ctx.strokeStyle = "black";
@@ -48,13 +49,7 @@
             // Drawing a border arounf the entire canvas
             ctx.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
 
-            function clearCanvas() {
-                ctx.fillStyle = "white";
-                ctx.strokeStyle = "black";
-                ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
-                ctx.strokeStyle(0, 0, gameCanvas.width, gameCanvas.height);
             }
-
 
 
             // Drawing the Snake on the canvas
