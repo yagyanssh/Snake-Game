@@ -94,13 +94,21 @@
             }
 
             
-            clearCanvas()
-            // Move one step to the right
-            advanceSnake();
-            // MOve up
-            advanceSnake();
+
+            
+            function main(){
+                setTimeout(function onTick() {
+                    clearCanvas();
+                    advanceSnake();
+                    drawSnake();
+                    main();
+                }, 100);
+            }
+
+
             // Draw the snake on the canvas
             drawSnake();
+            main();
 
 
         </script>
