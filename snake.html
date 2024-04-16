@@ -36,6 +36,30 @@
             // Returning the two dimentinal drawing context
             const ctx = canvas.getContext("2d");
 
+            
+            //Start Game
+            main();            
+            // Call change direction whenever a key is pressed
+            document.addEventListener("keydown", changeDirection);
+            
+            /*
+                Main function of the game 
+                called repeateadly to advance the game
+            */
+            
+            function main(){
+                setTimeout(function onTick() {
+                    clearCanvas();
+                    advanceSnake();
+                    drawSnake();
+                    main();
+                }, 100);
+            }
+ 
+            /*
+                Change the background color to the canvas and
+                draw a border around it.
+            */
             function clearCanvas() {
 
             // Giving a background color and border to the canvas
@@ -78,6 +102,53 @@
                 ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
             }
 
+            /*
+                Function to chsnge direction of the snake
+            */
+
+            function changeDirection(event) {
+                // CHange the vertical and horizontal velocity of snake 
+                // acc to the key pressed
+
+                const LEFT_KEY = 37;
+                const RIGHT_KEY = 39;
+                const UP_KEY = 38;
+                const DOWN_KEY = 40;
+
+                // @param { object } event - The keydown event
+                const keyPressed = event.keyCode;
+                const goingUp = dy === -10;
+                const goingDown = dy === 10;
+                const goingRight = dx === 10;
+                const goingLeft = dx === -10;
+
+                /*
+                    we also check if the snake is moving it the opposit 
+                    direction of inteded direction -> to prevent our snake from 
+                    reversing
+                */
+
+                if (keyPressed === LEFT_KEY && !goingRight){
+                    dx = -10;
+                    dy = 0;
+                }
+
+                if (keyPressed === UP_KEY && !goingDown){
+                    dx = 0;
+                    dy = -10;
+                }
+                if (keyPressed === RIGHT_KEY && !goingLeft){
+                    dx = 10;
+                    dy = 0;
+                }
+                if (keyPressed === DOWN_KEY && !goingUp){
+                    dx = 0;
+                    dy = 10;
+                }
+            }
+
+
+
             /* 
                 Advance the snake by changing the x-coordinstes of its parts
                 according to the horizontal velocity and the y coordinates of its parts
@@ -96,19 +167,7 @@
             
 
             
-            function main(){
-                setTimeout(function onTick() {
-                    clearCanvas();
-                    advanceSnake();
-                    drawSnake();
-                    main();
-                }, 100);
-            }
-
-
-            // Draw the snake on the canvas
-            drawSnake();
-            main();
+            
 
 
         </script>
