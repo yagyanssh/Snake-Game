@@ -10,6 +10,9 @@ let snake = [
 let dx = 0;
 // Vertical Velocity
 let dy = -10;
+// score
+let score = 0;
+
 
 
 // Get the canvas element
@@ -18,11 +21,11 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 
-
-//Start Game
-main();
 // Create the first food location
 createFood();
+//Start Game
+main();
+
 // Call change direction whenever a key is pressed
 document.addEventListener("keydown", changeDirection);
 
@@ -140,11 +143,24 @@ function changeDirection(event) {
 
 function advanceSnake() {
     // Create a new snake head
-    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+    const head = { x: snake[0].x + dx, y: snake[0].y};
     // Now add the new head to the beginning of the snake's body
     snake.unshift(head);
     // for removig last element
     snake.pop()
+
+    const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
+    if (didEatFood){
+        // increase score
+        score += 10;
+        // display score on screen
+        document.getElementById('score').innerHTML = score;
+        // generate new food location
+        createFood();
+    }else{
+        // remove the last part of the snake body
+        snake.pop();
+    }
 }
 
 /*
@@ -155,7 +171,7 @@ function advanceSnake() {
     @param { number } max - The maximum number the random number can be
 */
 function randomTen(min, max){
-    return Math.round((Math.random() * (max-min) + max)/ 10) * 10;
+    return Math.round((Math.random() * (max-min) + min)/ 10) * 10;
 }
 
 /*
@@ -169,7 +185,7 @@ function createFood(){
 
     // if the new food location is where snake currently is, generate a new food location 
     snake.forEach(function IsFoodOnSnake(part){
-        const foodIsOnSnake = part.x == foodX && foodY; 
+        const foodIsOnSnake = part.x == foodX && part.y == foodY; 
         if(foodIsOnSnake) createFood();
     });
 }
