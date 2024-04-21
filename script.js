@@ -13,6 +13,8 @@ let score = 0;
 let dx = 0;
 // Vertical Velocity
 let dy = -10;
+// when set to true the snake is changing direction
+let changingDirection = false;
 
 
 // Get the canvas element
@@ -21,10 +23,11 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 
-//Start Game
-main();
 // Create the first food location
 createFood();
+//Start Game
+main();
+
 // Call change direction whenever a key is pressed
 document.addEventListener("keydown", changeDirection);
 
@@ -38,6 +41,7 @@ function main() {
     if(didGameEnd()) return; 
     
     setTimeout(function onTick() {
+        changingDirection = false;
         clearCanvas();
         drawFood();
         advanceSnake();
@@ -85,7 +89,7 @@ function drawFood(){
 */
 function advanceSnake() {
     // Create a new snake head
-    const head = { x: snake[0].x + dx, y: snake[0].y};
+    const head = { x: snake[0].x + dx, y: snake[0].y + dy};
     // Now add the new head to the beginning of the snake's body
     snake.unshift(head);
 
@@ -117,7 +121,7 @@ function didGameEnd(){
     }
     const hitLeftWall = snake[0].x < 0;
     const hitRightWall = snake[0].x >gameCanvas.width-10;
-    const hitTopWall = snake[0].y &alt; 0;
+    const hitTopWall = snake[0].y < 0;
     const hitBottomWall = snake[0].y > gameCanvas.height-10;
 
     return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
@@ -185,6 +189,7 @@ function drawSnakePart(snakePart) {
     Function to chsnge direction of the snake
 */
 function changeDirection(event) {
+    
     // CHange the vertical and horizontal velocity of snake 
     // acc to the key pressed
     const LEFT_KEY = 37;
@@ -192,7 +197,12 @@ function changeDirection(event) {
     const UP_KEY = 38;
     const DOWN_KEY = 40;
 
+    // prevent the snake from reversing
     // @param { object } event - The keydown event
+    if (changingDirection) return;
+    changingDirection = true;
+
+
     const keyPressed = event.keyCode;
 
     const goingUp = dy === -10;
