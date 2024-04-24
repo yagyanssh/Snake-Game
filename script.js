@@ -64,7 +64,7 @@ function clearCanvas() {
     // Selecting color for the border of the canvas
     ctx.strokeStyle = "black";
     // Drawing a fixed rectangle to cover the entire canvas
-    ctx.fillRect(0, 0, canvas.width - 2, canvas.height - 2);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     // Drawing a border arounf the entire canvas
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
